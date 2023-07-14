@@ -1,8 +1,9 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
+import { Link, type DocumentHead, useNavigate } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 
 export default component$(() => {
+  const nav = useNavigate();
 
   const pokemonID = useSignal<number>(1); // primitivos, booleans, strings
   const showBackImg = useSignal<boolean>(false);
@@ -18,13 +19,28 @@ export default component$(() => {
     showBackImg.value = !showBackImg.value
   })
 
+  const goToPokemon = $(() => {
+    nav(`/pokemon/${ pokemonID.value }`);
+  })
+
   return (
     <>
 
       <span class="text-2xl">Pokemon No. </span>
       <span class="text-9xl">{ pokemonID }</span>
 
-      <PokemonImage id={ pokemonID.value } backImg={ showBackImg.value } />
+      <div onClick$={ () => goToPokemon() }>
+        <PokemonImage
+          id={ pokemonID.value }
+          backImg={ showBackImg.value }
+        />
+      </div>
+      {/* <Link href={`/pokemon/${ pokemonID.value }/`}> */}
+        {/* <PokemonImage
+          id={ pokemonID.value }
+          backImg={ showBackImg.value } 
+        /> */}
+      {/* </Link> */}
 
       <div class="mt-2 p-2">
         <button onClick$={ () => changePokemonId(-1) } class="btn btn-primary mr-2">Anterior</button>
