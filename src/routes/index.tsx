@@ -1,41 +1,52 @@
-import { $, component$, useContext } from '@builder.io/qwik';
+import { $, component$ } from '@builder.io/qwik';
 import { type DocumentHead, useNavigate } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
-import { PokemonGameContext } from '~/context/pokemon/pokemon-game.context';
+import { usePokemonGame } from '~/hooks/use-pokemon-game';
 
 export default component$(() => {
   const nav = useNavigate();
+  const {
+    pokemonId,
+    showBackImg,
+    nextPokemon,
+    previousPokemon,
+    changeShowBackImg
 
-  const pokemonGame = useContext(PokemonGameContext);
+  } = usePokemonGame();
+
+  // const pokemonGame = useContext(PokemonGameContext); //Moved to the hook
 
   // const pokemonID = useSignal<number>(1); // primitivos, booleans, strings
   // const showBackImg = useSignal<boolean>(false);
 
-  const changePokemonId = $(( value: number ) => {
-    if ((pokemonGame.pokemonID + value) <= 0) pokemonGame.pokemonID = 903;
-    else if ((pokemonGame.pokemonID + value) > 1013) pokemonGame.pokemonID = 1;
 
-    pokemonGame.pokemonID += value;
-  })
+  // Moved to the hook
+  // const changePokemonId = $(( value: number ) => {
+  //   if ((pokemonGame.pokemonID + value) <= 0) pokemonGame.pokemonID = 903;
+  //   else if ((pokemonGame.pokemonID + value) > 1013) pokemonGame.pokemonID = 1;
 
-  const changeShowBackImg = $(() => {
-    pokemonGame.showBackImg = !pokemonGame.showBackImg
-  })
+  //   pokemonGame.pokemonID += value;
+  // })
 
-  const goToPokemon = $(() => {
-    nav(`/pokemon/${ pokemonGame.pokemonID }`);
+  // Moved to the hook
+  // const changeShowBackImg = $(() => {
+  //   pokemonGame.showBackImg = !pokemonGame.showBackImg
+  // })
+
+  const goToPokemon = $(( id: number) => {
+    nav(`/pokemon/${ id }`);
   })
 
   return (
     <>
 
       <span class="text-2xl">Pokemon No. </span>
-      <span class="text-9xl">{ pokemonGame.pokemonID }</span>
+      <span class="text-9xl">{ pokemonId.value }</span>
 
-      <div onClick$={ () => goToPokemon() }>
+      <div onClick$={() => goToPokemon(pokemonId.value) }>
         <PokemonImage
-          id={ pokemonGame.pokemonID }
-          backImg={ pokemonGame.showBackImg }
+          id={ pokemonId.value }
+          backImg={ showBackImg.value }
         />
       </div>
       {/* <Link href={`/pokemon/${ pokemonGame.pokemonID }/`}> */}
@@ -46,10 +57,10 @@ export default component$(() => {
       {/* </Link> */}
 
       <div class="mt-2 p-2">
-        <button onClick$={ () => changePokemonId(-1) } class="btn btn-primary mr-2">Anterior</button>
-        <button onClick$={ () => changePokemonId(+1) } class="btn btn-primary mr-2">Siguiente</button>
+        <button onClick$={ previousPokemon } class="btn btn-primary mr-2">Anterior</button>
+        <button onClick$={ nextPokemon } class="btn btn-primary mr-2">Siguiente</button>
 
-        <button onClick$={ () => changeShowBackImg() } class="btn btn-primary">Voltear</button>
+        <button onClick$={ changeShowBackImg } class="btn btn-primary">Voltear</button>
       </div>
     </>
   );

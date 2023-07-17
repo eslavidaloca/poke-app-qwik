@@ -24,6 +24,9 @@ export default component$(() => {
           <li>
             <Link href='/pokemons/list-ssr/'>List-SSR</Link>
           </li>
+          <li>
+            <Link href='/counter/'>Contador</Link>
+          </li>
           {/* <li>
             <a href="https://qwik.builder.io/docs/components/overview/" target="_blank">
               Docs
