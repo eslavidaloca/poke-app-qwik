@@ -1,8 +1,10 @@
-import { component$, useComputed$ } from '@builder.io/qwik';
+import { component$, useComputed$, useSignal, $, useStore, useVisibleTask$ } from '@builder.io/qwik';
 import { Link, type DocumentHead, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { getSmallPokemons } from '~/helpers/get-small-pokemon';
 import { SmallPokemon, PokemonListResponse } from '~/interfaces';
 import { PokemonImage } from '../../../components/pokemons/pokemon-image';
+import { Modal } from '~/components/shared';
+import { getFunFactAboutPokemon } from '~/helpers/chat-gpt-response';
 
 export const usePokemonList = routeLoader$<SmallPokemon[]>(async({ query, redirect, pathname }) => {
 
@@ -22,6 +24,35 @@ export default component$(() => {
 
     const pokemons = usePokemonList();
     const location = useLocation();
+
+    const modalVisible = useSignal(false);
+    const modalPokemon = useStore({
+        id: '',
+        name: ''
+    });
+
+    const gptResponse = useSignal('');
+
+    //Modal functions
+    const showModal = $((id: string, name: string) => {
+        modalPokemon.id = id;
+        modalPokemon.name = name;
+
+        modalVisible.value = true;
+    });
+    const hideModal = $(() => {
+        modalVisible.value = false;
+    });
+
+    useVisibleTask$(({ track }) => {
+        track( () => modalPokemon.name );
+
+        gptResponse.value = '';
+
+        if( modalPokemon.name.length > 0)
+            getFunFactAboutPokemon(modalPokemon.name)
+                .then(resp => gptResponse.value = resp);
+    });
 
     const currentOffset = useComputed$<number>(() => {
         // const offSetString = location.url.searchParams.get('offset');
@@ -54,12 +85,31 @@ export default component$(() => {
 
             <div class="grid grid-cols-6 mt-5">
                 {pokemons.value.map((pokemon) => (
-                    <div key={ pokemon.name } class="m-5 flex flex-col justify-center items-center">
+                    <div key={ pokemon.name } 
+                        onClick$={ () => showModal(pokemon.id, pokemon.name) }
+                        // onClick$={ () => modalVisible.value = true }
+                        class="m-5 flex flex-col justify-center items-center">
                         <PokemonImage id={ pokemon.id }/>
                         <span class="capitalize">{ pokemon.name }</span>
                     </div>
                 ))}
             </div>
+
+
+            <Modal size='lg' showModal={ modalVisible.value } closeFn={ hideModal }>
+                <div q:slot='title'>{ modalPokemon.name }</div>
+                <div q:slot='content' class="flex flex-col justify-center items-center">
+                    <PokemonImage id={ modalPokemon.id }/>
+                    <span>
+                        {
+                          gptResponse.value === ''
+                          ? 'Preguntando a ChatGPT...'
+                          : gptResponse.value 
+                        }
+                    </span>
+                    <img src="/oval.svg" alt="Loading" class={[gptResponse.value === '' ? '' : 'hidden', 'mt-3']} />
+                </div>
+            </Modal>
 
         </>
     )

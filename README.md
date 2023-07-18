@@ -8,6 +8,10 @@
 
 ---
 
+## Configuracion del .env
+
+Renombrar el archivo __.env.template__ a __.env__ y cambiar las variables de entorno.
+
 ## Project Structure
 
 This project is using Qwik with [QwikCity](https://qwik.builder.io/qwikcity/overview/). QwikCity is just an extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
