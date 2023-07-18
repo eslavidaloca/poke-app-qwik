@@ -1,6 +1,6 @@
 import { component$ } from '@builder.io/qwik';
 // import { QwikLogo } from '../../icons/qwik';
-import { PokemonLogo } from '../../icons/pokemon';
+import { PokemonLogo } from '~/components/icons/pokemon';
 import styles from './navbar.module.css';
 import { Link } from '@builder.io/qwik-city';
 
@@ -9,7 +9,7 @@ export default component$(() => {
     <navbar class={styles.navbar}>
       <div class={['container', styles.wrapper]}>
         <div class={styles.logo}>
-          <Link href='/'><PokemonLogo height={50} width={143} /></Link>
+          <Link href='/'><PokemonLogo /></Link>
         </div>
         <ul>
           <li>

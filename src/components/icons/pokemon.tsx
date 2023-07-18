@@ -1,4 +1,4 @@
-export const PokemonLogo = ({ width = 75, height = 35 }: { width?: number; height?: number }) => (
+export const PokemonLogo = () => (
     <svg
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:cc="http://creativecommons.org/ns#"

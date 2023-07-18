@@ -1,8 +1,8 @@
 import { component$, useComputed$, useSignal, $, useStore, useVisibleTask$ } from '@builder.io/qwik';
 import { Link, type DocumentHead, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { getSmallPokemons } from '~/helpers/get-small-pokemon';
-import { SmallPokemon, PokemonListResponse } from '~/interfaces';
-import { PokemonImage } from '../../../components/pokemons/pokemon-image';
+import type { SmallPokemon } from '~/interfaces';
+import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { Modal } from '~/components/shared';
 import { getFunFactAboutPokemon } from '~/helpers/chat-gpt-response';
 
@@ -67,8 +67,8 @@ export default component$(() => {
     return (
         <>
             <div class="flex flex-col">
-                <span class="my-5 text-5xl">Status</span>
-                <span>Offset: { currentOffset }</span>
+                <span class="my-5 text-5xl">Lista de pokemones del lado del servidor</span>
+                <span>Pagina actual: { currentOffset }</span>
                 <span>Esta cargando la pagina: { location.isNavigating ? 'Si' : 'No' }</span>
             </div>
 
@@ -107,7 +107,7 @@ export default component$(() => {
                           : gptResponse.value 
                         }
                     </span>
-                    <img src="/oval.svg" alt="Loading" class={[gptResponse.value === '' ? '' : 'hidden', 'mt-3']} />
+                    <img width={ 60 } height={ 60 } src="/oval.svg" alt="Loading" class={[gptResponse.value === '' ? '' : 'hidden', 'mt-3']} />
                 </div>
             </Modal>
 

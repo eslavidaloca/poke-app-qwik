@@ -10,7 +10,7 @@ export const useCheckAuthCookie = routeLoader$(({ cookie, redirect }) => {
         return;
     }
 
-    redirect(302, '/');
+    redirect(302, '/login');
 });
 
 export default component$(() => {

@@ -7,7 +7,13 @@ interface Props {
     noVisible?: boolean;
 }
 
-export const PokemonImage = component$(( { id, size = 200, backImg = false, noVisible=false }: Props ) => {
+export const PokemonImage = component$((
+    {
+        id,
+        size = 200,
+        backImg = false,
+        noVisible=false
+    }: Props ) => {
 
     const imageLoaded = useSignal(false);
 
@@ -30,20 +36,20 @@ export const PokemonImage = component$(( { id, size = 200, backImg = false, noVi
 
     return (
         <div class="flex items-center justify-center"
-            style={{ width: `${ size }px`, height: `${ size }px` }}>
+            style={{ width:`${ size }px`, height:`${ size }px` }}>
             { !imageLoaded.value && <span>Cargando...</span> }
             <img 
-                src={imageUrl.value }
+                src={ imageUrl.value }
                 alt="Imagen de pokemon"
                 style={{ width: `${ size }px` }}
                 onLoad$={ () => {
                     imageLoaded.value = true;
                 }}
                 class={[{ 
-                    "hidden": !imageLoaded.value,
-                    "brightness-0": noVisible
-                }, "transition-all"]}
+                    'hidden': !imageLoaded.value,
+                    'brightness-0': noVisible
+                }, 'transition-all']}
             />
         </div>
     )  
-})
+});

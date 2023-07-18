@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { type DocumentHead } from "@builder.io/qwik-city";
-import { PokemonImage } from '../../../components/pokemons/pokemon-image';
+import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { usePokemonGame } from "~/hooks/use-pokemon-game";
 
 // export const usePokemonId = routeLoader$<number>(({ params, redirect }) => {

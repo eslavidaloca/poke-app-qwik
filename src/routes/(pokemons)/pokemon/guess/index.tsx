@@ -2,7 +2,6 @@ import { component$, useSignal, $, useTask$ } from '@builder.io/qwik';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { type DocumentHead } from '@builder.io/qwik-city';
 import styles from './guess.module.css';
-import { PokemonData } from '~/components/pokemons/pokemon-data';
 
 
 export default component$(() => {
@@ -17,7 +16,7 @@ export default component$(() => {
     });
 
   const changePokemonId = $(() => {
-    let newId: number = Math.floor(Math.random() * 902);
+    const newId: number = Math.floor(Math.random() * 902);
     
     pokemonID.value = newId;
   })

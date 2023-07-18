@@ -52,7 +52,7 @@ export default component$(() => {
     return (
         <>
             <div class="flex flex-col">
-                <span class="my-5 text-5xl">Status</span>
+                <span class="my-5 text-5xl">Lista de pokemones del lado del cliente</span>
                 <span>Pagina actual: { pokemonState.currentPage } </span>
                 <span>Esta cargando: </span>
             </div>

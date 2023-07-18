@@ -50,7 +50,6 @@ export default component$(() => {
                 ) }
             </p>
 
-
             <code>
                 { JSON.stringify( action.value, undefined , 2 ) }
             </code>
